@@ -44,6 +44,19 @@
     app.toggleAddDialog(true);
   });
 
+  var deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+  });
+
+  if (!!deferredPrompt) {
+    deferredPrompt.prompt();
+  }
+
   document.getElementById('butAddCity').addEventListener('click', function() {
     // Add the newly selected city
     var select = document.getElementById('selectCityToAdd');
